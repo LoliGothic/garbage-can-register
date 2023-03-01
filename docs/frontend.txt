@@ -1,6 +1,6 @@
 フロントエンドの構造
 
-使うやつ(要検討):
+使用技術(要検討):
     html
     JavaScript
     Django
