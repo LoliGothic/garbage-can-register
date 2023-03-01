@@ -1,2 +1,19 @@
 データベースの構造
 
+ゴミ箱の情報を集めたテーブル
+テーブル:
+    trash_can_info
+カラム:
+    id: text(or int): uuid(一意に定まるならなんでも), ゴミ箱のID
+    position: text: ゴミ箱の位置(座標)
+    image: text: ゴミ箱の画像(画像ファイルへのパス)
+    comment: text: ゴミ箱に対する一言コメント
+
+ゴミ箱に対する評価(未定)
+デーブル:
+    trash_can_recommend
+カラム:
+    id: text(or int): uuid, id
+    stars: int: 1～5までの評価
+    comment: text: ゴミ箱に対する一言コメント(なくても良い)
+
