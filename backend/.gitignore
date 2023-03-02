@@ -4,3 +4,4 @@ __pycache__/
 db-volumes/
 db.sqlite3
 media/*.png
+!media/none_image.png
