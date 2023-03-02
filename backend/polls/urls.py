@@ -1,3 +1,4 @@
+from django.contrib import admin
 from django.urls import path, include
 # DRFのrouterを使う
 from rest_framework.routers import DefaultRouter
@@ -11,3 +12,4 @@ router.register('garbage', views.GarbageViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
+
