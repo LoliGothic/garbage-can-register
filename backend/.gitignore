@@ -3,5 +3,5 @@
 __pycache__/
 db-volumes/
 db.sqlite3
-media/*.png
-!media/none_image.png
+media/img/*.png
+!media/*/none_image.png
