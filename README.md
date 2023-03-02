@@ -3,6 +3,7 @@
 ## 実行までの手順
 1. 好きな場所でgit clone git@github.com:scla-sagauniv/gabaithon202303_team3.gitをする(httpsの人はgit clone https://github.com/scla-sagauniv/gabaithon202303_team3.git)
 1. docker-compose buildでimageの構築
+1. docker-compose run --rm front npm installでnode_modulesの作成
 1. docker-compose upでコンテナの構築&起動
 1. localhost:3000とlocalhost:8000にアクセス出来れば成功
 1. ctrl+cでコンテナ停止
@@ -20,3 +21,5 @@
 - whyとwhatを付ける(hogehogeのため，hogehogeした．みたいな感じ)
 
 `※変なところとか，これには従いたくないってのがあったら，適当に書き換えててください`
+
+### テスト
