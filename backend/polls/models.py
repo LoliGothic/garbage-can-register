@@ -1,10 +1,11 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 
 class Garbage(models.Model):
-  Id = models.IntegerField(blank=False, null=False, primary_key=True)
-  Lat = models.FloatField(blank=False, null=False, default="0.0")
-  Lng = models.FloatField(blank=False, null=False, default="0.0")
-  Image = models.ImageField(blank=False, null=False)
+  id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+  lat = models.FloatField(blank=False, null=False, default="0.0")
+  lng = models.FloatField(blank=False, null=False, default="0.0")
+  image = models.ImageField(blank=False, null=False)
   comment = models.TextField(blank=True, null=True)
