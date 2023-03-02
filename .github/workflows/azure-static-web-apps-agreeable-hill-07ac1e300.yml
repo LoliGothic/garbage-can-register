@@ -24,14 +24,13 @@ jobs:
         with:
           node-version: 18.12.1
 
-      - name: Change Directory
-        run: cd frontend
-
       - name: Install NPM packages
         run: npm i
+        working-directory: ./frontend
 
       - name: Build Next.js app
         run: npm run build && npm run export
+        working-directory: ./frontend
 
       - name: Build And Deploy
         id: builddeploy
