@@ -24,6 +24,9 @@ jobs:
         with:
           node-version: 18.12.1
 
+      - name: Change Directory
+        run: cd frontend
+
       - name: Install NPM packages
         run: npm i
 
