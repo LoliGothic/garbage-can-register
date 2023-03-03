@@ -22,8 +22,11 @@ const style = {
 export default function Detail() {
   const [garbageInfo, setGarbageInfo] = useState(null);
   const [open, setOpen] = useState(false);
+  const [cordinate, setCordinate] = useState({lat: 35.69575, lng: 139.77521})
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    
     axios
       .get("http://localhost:8000/garbage/garbage/")
       .then((res) => {
@@ -51,10 +54,16 @@ export default function Detail() {
     height: "100vh",
   };
 
-  const center = {
-    lat: 35.69575,
-    lng: 139.77521,
-  };
+  function successCallback(position){
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    setCordinate({lat: latitude, lng: longitude});
+};
+
+function errorCallback(error){
+    alert("位置情報が取得できませんでした");
+};
 
   function handleOpen(id) {
     const allGarbage = [];
@@ -103,7 +112,7 @@ export default function Detail() {
 
   return (
     <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_API_KEY}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={17}>
+      <GoogleMap mapContainerStyle={containerStyle} center={{lat: cordinate.lat, lng: cordinate.lng}} zoom={17}>
         {garbageInfo &&
           garbageInfo.map((garbage, index) => {
             if (garbage.visible == false) {
@@ -137,7 +146,7 @@ export default function Detail() {
                         ></img>
                       </div>
                       <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        コメン�?: {garbage.comment}
+                        {garbage.comment}
                       </Typography>
                     </Box>
                   </Modal>
