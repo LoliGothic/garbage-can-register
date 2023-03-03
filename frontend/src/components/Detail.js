@@ -1,8 +1,9 @@
 import { GoogleMap, LoadScript, Marker, MarkerF } from "@react-google-maps/api";
 import Modal from '@mui/material/Modal';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 
 const style = {
     position: 'absolute',
@@ -19,6 +20,18 @@ const style = {
 
 export default function Detail() {
 
+    useEffect(() => {
+        console.log("test");
+        axios
+          .get("http://localhost:8000/garbage/garbage/")
+          .then((res) => {
+            console.log(JSONstringify.comment);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+          
+    },[])
     const containerStyle = {
         width: "100%",
         height: "100vh",
