@@ -8,6 +8,7 @@ from . import views
 # DefaultRouter設定
 router = DefaultRouter()
 router.register('garbage', views.GarbageViewSet)
+router.register('stars', views.StarsViewSet)
  
 urlpatterns = [
     path('', include(router.urls)),
