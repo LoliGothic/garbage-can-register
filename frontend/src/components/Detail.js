@@ -100,6 +100,7 @@ function errorCallback(error){
           comment: garbage.comment,
           visible: true,
         });
+        setCordinate({lat: garbage.lat, lng: garbage.lng})
       } else {
         allGarbage.push({
           id: garbage.id,
