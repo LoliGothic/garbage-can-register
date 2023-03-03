@@ -19,11 +19,35 @@ const style = {
   p: 4,
 };
 
-export default function Detail() {
+export default function Detail(props) {
   const [garbageInfo, setGarbageInfo] = useState(null);
+  const [stars, setStars] = useState(null);
+  const [stars_avg, setStars_avg] = useState(0);
+  const [stars_comments, setStars_comments] = useState(null);
   const [open, setOpen] = useState(false);
+  const [cordinate, setCordinate] = useState({lat: 35.69575, lng: 139.77521})
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    
+    axios
+      .get("http://localhost:8000/garbage/stars/")
+      .then((res) => {
+        const allstars = [];
+        res.data.forEach((s) => {
+          allstars.push({
+            id: s.id,
+            garbage_id: s.garbage_id,
+            stars: s.stars,
+            comment: s.comment,
+          });
+        });
+        setStars(allstars);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     axios
       .get("http://localhost:8000/garbage/garbage/")
       .then((res) => {
@@ -39,24 +63,32 @@ export default function Detail() {
           });
         });
         setGarbageInfo(allGarbage);
-        console.log(res.data);
+        console.log("tes");
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [props.toggle]);
 
   const containerStyle = {
     width: "100%",
     height: "100vh",
   };
 
-  const center = {
-    lat: 35.69575,
-    lng: 139.77521,
-  };
+  function successCallback(position){
+    var latitude = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    setCordinate({lat: latitude, lng: longitude});
+};
+
+function errorCallback(error){
+    alert("位置情報が取得できませんでした");
+};
 
   function handleOpen(id) {
+    starsAverage(id);
+    set_stars_comments(id);
     const allGarbage = [];
     garbageInfo.forEach((garbage) => {
       if (garbage.id === id) {
@@ -101,9 +133,47 @@ export default function Detail() {
     console.log(garbageInfo);
   }
 
+  // 評価の平均
+  function starsAverage(id){
+    let count = 0;
+    let stars_sum = 0;
+    //console.log(stars.length)
+    for (let i = 0; i < stars.length; i++){
+      if (stars[i].garbage_id == id){
+        count++;
+        console.log(count);
+        stars_sum += stars[i].stars;
+      }
+    }
+    //console.log(stars_sum / count)
+    setStars_avg(stars_sum / count);
+  }
+
+  // 入力されたガベージidのコメントを抜き出す
+  function set_stars_comments(id){
+    const s_c = [];
+    for (let i = 0; i < stars.length; i++){
+      if (stars[i].garbage_id == id && stars[i].comment != null){
+        let text = "";
+        for (let j = 0; j < stars[i].stars; j++){
+          text += "★"
+        }
+        for (let j = 0; j < 5 - stars[i].stars; j++){
+          text += "☆"
+        }
+        s_c.push(<div>
+          {text}：
+          {stars[i].comment}
+        </div>
+        )
+      }
+    }
+    setStars_comments(s_c);
+  }
+
   return (
     <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_API_KEY}>
-      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={17}>
+      <GoogleMap mapContainerStyle={containerStyle} center={{lat: cordinate.lat, lng: cordinate.lng}} zoom={17}>
         {garbageInfo &&
           garbageInfo.map((garbage, index) => {
             if (garbage.visible == false) {
@@ -137,8 +207,11 @@ export default function Detail() {
                         ></img>
                       </div>
                       <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        コメント: {garbage.comment}
+                        {garbage.comment}
                       </Typography>
+                      <div style={{marginTop: '20px'}}>平均評価：★×{stars_avg}</div>
+                      <div style={{marginTop: '20px'}}>その他のコメント</div>
+                      <div>{stars_comments}</div>
                     </Box>
                   </Modal>
                 </div>
