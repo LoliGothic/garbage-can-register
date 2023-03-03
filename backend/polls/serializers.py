@@ -9,4 +9,4 @@ class GarbageSerializer(serializers.ModelSerializer):
 class StarsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stars
-        fields = ['id', 'stars', 'comment']
+        fields = ['id', 'garbage_id', 'stars', 'comment']

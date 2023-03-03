@@ -13,5 +13,6 @@ class Garbage(models.Model):
 # 評価の為のテーブル
 class Stars(models.Model):
   id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+  garbage_id = models.ForeignKey(Garbage, on_delete=models.CASCADE)
   stars = models.IntegerField(blank=False, null=False, default=5)
   comment = models.TextField(blank=True, null=True)
