@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function Detail() {
+export default function Detail(props) {
   const [garbageInfo, setGarbageInfo] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -39,12 +39,12 @@ export default function Detail() {
           });
         });
         setGarbageInfo(allGarbage);
-        console.log(res.data);
+        console.log("tes");
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [props.toggle]);
 
   const containerStyle = {
     width: "100%",
@@ -52,8 +52,8 @@ export default function Detail() {
   };
 
   const center = {
-    lat: 35.69575,
-    lng: 139.77521,
+    lat: 33.3731972,
+    lng: 130.2056626,
   };
 
   function handleOpen(id) {
